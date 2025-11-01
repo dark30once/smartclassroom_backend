@@ -1,0 +1,3 @@
+Switch;On or off remote;{default_status:off};on
+Switch2;Open or Close remote;{default_status:off};open
+Temperature Slider;Range tempareture slider;{"min":16,"max":26,"from":24,"postfix": "°","prettify": false,"hasGrid": true,"disable": false};on
