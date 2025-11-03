@@ -28,13 +28,26 @@ def upgrade():
                       sa.Column('room_id', sa.Integer),
                       sa.Column('group_id', sa.Integer))
     vals = []
-    q = sa.sql.select([groups.c.id, groups.c.permission_id])
+
+    # Add this BEFORE the conn.execute(access.insert(), vals) line
+    if op.get_context().dialect.name == 'mysql':
+        op.alter_column('group_access', 'id',
+                   existing_type=sa.Integer(),
+                   autoincrement=True,
+                   existing_nullable=False)
+
+    # ... rest of your code ...
+    conn.execute(access.insert(), vals)
+
+    # q = sa.sql.select([groups.c.id, groups.c.permission_id])
+    q = sa.sql.select(groups.c.id, groups.c.permission_id)
     for row in conn.execute(q):
         vals.append({'group_id': row[0], 'permission_id':row[1]})
     conn.execute(access.insert(), vals)
 
     try:
-        op.drop_constraint('group_permission_id_fkey', 'group', type_='foreignkey')
+        # op.drop_constraint('group_permission_id_fkey', 'group', type_='foreignkey')
+        op.drop_constraint('group_ibfk_1', 'group', type_='foreignkey')
     except InternalError:
         row = conn.execute("SELECT CONSTRAINT_NAME FROM "
                            "INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE "
