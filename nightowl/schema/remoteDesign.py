@@ -1,7 +1,7 @@
 from nightowl.models.remoteDesign import RemoteDesign
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class RemoteDesignSchema(ModelSchema):
+class RemoteDesignSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = RemoteDesign
 

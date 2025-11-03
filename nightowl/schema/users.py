@@ -1,8 +1,8 @@
 from nightowl.models.users import Users
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 
-class UsersSchema(ModelSchema):
+class UsersSchema(SQLAlchemyAutoSchema):
 	class Meta:
 		model = Users
 

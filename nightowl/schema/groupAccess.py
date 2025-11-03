@@ -1,7 +1,7 @@
 from nightowl.models.groupAccess import GroupAccess
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class GroupAccessSchema(ModelSchema):
+class GroupAccessSchema(SQLAlchemyAutoSchema):
 	class Meta:
 		model = GroupAccess
 

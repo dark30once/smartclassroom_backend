@@ -1,7 +1,7 @@
 from nightowl.models.auditTrail import AuditTrail
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class AuditTrailSchema(ModelSchema):
+class AuditTrailSchema(SQLAlchemyAutoSchema):
 	class Meta:
 		model = AuditTrail
 

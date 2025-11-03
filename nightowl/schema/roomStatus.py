@@ -1,7 +1,7 @@
 from nightowl.models.roomStatus import RoomStatus
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class RoomStatusSchema(ModelSchema):
+class RoomStatusSchema(SQLAlchemyAutoSchema):
   class Meta:
     model = RoomStatus
 
