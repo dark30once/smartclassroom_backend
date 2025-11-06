@@ -1,8 +1,8 @@
 from nightowl.models.devices import Devices
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class DevicesSchema(ModelSchema):
-	class Meta:
-		model = Devices
+class DevicesSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Devices
 
-devices_schema = DevicesSchema(only = ('id', 'name', 'description', 'remote_design_id'))
+devices_schema = DevicesSchema(only = ('id', 'name', 'description'))
