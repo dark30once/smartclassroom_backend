@@ -22,7 +22,7 @@ class rooms(Resource):
         rooms = g.current_user.getAccessibleRooms(["User", "Admin"])
         allRooms = []
         for room in rooms:
-            data = room_schema.dump(room).data
+            data = room_schema.dump(room)
             data['groups'] = len(room.group_access)
             allRooms.append(data)
         return {"rooms": allRooms}

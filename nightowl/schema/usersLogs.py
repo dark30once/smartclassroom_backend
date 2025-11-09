@@ -1,7 +1,7 @@
 from nightowl.models.usersLogs import UsersLogs
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class UsersLogsSchema(ModelSchema):
+class UsersLogsSchema(SQLAlchemyAutoSchema):
 	class Meta:
 		model = UsersLogs
 

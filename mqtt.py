@@ -16,7 +16,10 @@ from nightowl.models.usersLogs import UsersLogs
 
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
-    reload_mqtt()
+    # This is called from the MQTT thread
+    # You might also need to push context here if reload_mqtt isn't called immediately
+    with app.app_context():
+        reload_mqtt()
 
 
 @mqtt.on_message()

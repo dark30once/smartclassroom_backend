@@ -1,7 +1,7 @@
 from nightowl.models.groupMember import GroupMember
-from marshmallow_sqlalchemy import ModelSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class GroupMemberSchema(ModelSchema):
+class GroupMemberSchema(SQLAlchemyAutoSchema):
 	class Meta:
 		model = GroupMember
 
