@@ -33,7 +33,7 @@ def login_user(request):
     if not token:
         raise UnauthorizedError('token is missing')
     try:
-        data = jwt.decode(token, app.config['SECRET_KEY'])
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
         log.debug("Token data: {}".format(data))
     except jwt.ExpiredSignatureError:
         raise UnauthorizedError("your token has been expired")
@@ -50,7 +50,7 @@ def login_user(request):
     db.session.commit()
 
     token = jwt.encode({'username': data['username'], 'public_id' : data['public_id'], 'exp': datetime.now() + timedelta(days = 1)}, app.config['SECRET_KEY'])
-    token = token.decode('UTF-8')
+    
     return user, token
 
 def token_required(f):

@@ -46,6 +46,11 @@ class Group(db.Model):
                   format(self=self))
         return set([a.permission.name for a in self.group_access])
 
+    # def _allPermissions(self):
+    #     # This modification filters out any access records that don't have a linked permission object
+    #     permissions = [a.permission.name for a in self.group_access if a.permission is not None]
+    #     return set(permissions)
+
     def getRoomPermission(self, room):
         perms = set([a.permission.name for a in self.group_access
                      if a.room == room])
