@@ -19,11 +19,11 @@ class permissions(Resource):
     @requires("global", ["Admin"])
     def get(self):
         allPermission = []
-        permission_schema = PermissionSchema(only = ('id', 'name', 'description'))
-        permission = Permission.query.all()
-        for queried_permission in permission:
-            allPermission.append(permission_schema.dump(queried_permission).data)
-        return {"permissions": allPermission}
+        permission_schema = PermissionSchema(many=True)
+        queried_permissions = Permission.query.all()
+        data = permission_schema.dump(queried_permissions)
+        
+        return {"permissions": data}
 
     @requires("global", ["Admin"])
     def post(self):
