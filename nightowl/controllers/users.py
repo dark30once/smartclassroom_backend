@@ -31,7 +31,7 @@ class users(Resource):
         allUser = []
         users = Users.query.filter(Users.username != current_user.username).all()
         for queried_user in users:
-            allUser.append(users_schema.dump(queried_user).data)
+            allUser.append(users_schema.dump(queried_user))
         return { "users": allUser }
 
     @requires('global', ['Admin'])
@@ -87,7 +87,7 @@ class user(Resource):
         query = Users.query.get(id)
         if query is None:
             raise NotFoundError("User {} was not found".format(id))
-        user = users_schema.dump(query).data
+        user = users_schema.dump(query)
         return {"data": user}
 
     @requires("global", ["Admin"])
@@ -134,7 +134,7 @@ class getUserProfile(Resource):    # THIS IS IN SIDEBAR HEADER
         user = g.current_user
         member = GroupMember.query.filter_by(user_id = user.id).first()
         group = Group.query.filter_by(id = member.group_id).first()
-        data = users_schema.dump(user).data
+        data = users_schema.dump(user)
         if group.name[len(group.name)-1] == 's' or group.name[len(group.name)-1] == 'S':
             data['group_name'] = group.name[0:len(group.name)-1]
         else:
