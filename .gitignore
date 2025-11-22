@@ -106,4 +106,4 @@ ENV/
 .mypy_cache/
 
 #sql
-smart_classroom.sql
+smartclassroom.sql

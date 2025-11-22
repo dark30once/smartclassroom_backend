@@ -53,7 +53,7 @@ class login(Resource):
                     raise UnexpectedError("Internal Server Error")
 
         Request = request.get_json()
-        log.debug("Request data: {}".format(request.data))
+        log.debug("Request data: {}".format(request))
         log.debug("Request json: {}".format(request.get_json()))
         log.debug("Request headers: {}".format(request.headers))
         if not Request['username']  and not Request['password']:
@@ -89,13 +89,28 @@ class logout(Resource):
             token = request.headers['x-access-token']
 
         if not token:
-            return jsonify({'message' : 'token is missing'})
+            # return jsonify({'message' : 'token is missing'})
+            raise UnauthorizedError('token is missing')
 
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
             user = UsersLogs.query.filter_by(username = data['username']).one().status = "logout"
+            # user = UsersLogs.query.filter_by(username = data['username']).one_or_none()
+            # if user_log:
+            #     user_log.status = "logout"
             db.session.commit()
             return 200
+            #     return {"message": "logged out successfully"}, 200
+            # else:
+            #     return {"message": "User session not found"}, 404
+
+        # except jwt.ExpiredSignatureError:
+        #     raise UnauthorizedError("Your token has expired")
+        # except jwt.DecodeError as e:
+        #     raise UnauthorizedError(f"Error decoding token: {str(e)}")
+        # except Exception as error:
+        #     print("==>>", error)
+        #     raise UnexpectedError({"message": "Internal Server Error"})
         except Exception as error:
             error = str(error)
             print("==>>",error)

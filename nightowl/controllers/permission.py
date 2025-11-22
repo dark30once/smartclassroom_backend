@@ -30,7 +30,7 @@ class permissions(Resource):
         permissions_schema = PermissionSchema()
 
         Request = request.get_json()
-        addPermission = permissions_schema.load(Request, session = db.session).data
+        addPermission = permissions_schema.load(Request, session = db.session)
         name = addPermission.name
         if Permission.query.filter_by(name = name).count() == 0:
             db.session.add(addPermission)
@@ -55,7 +55,7 @@ class permission(Resource):
         query = Permission.query.filter_by(id = id)
 
         if query.count() != 0:
-            permission = permission_schema.dump(query.first()).data
+            permission = permission_schema.dump(query.first())
             return {"data": permission}
         else:
             return {"data": []}
@@ -84,5 +84,5 @@ class getAllPer(Resource):
         permission_schema = PermissionSchema(only = ('id', 'name', 'description'))
         permission = Permission.query.all()
         for queried_permission in permission:
-            allPermission.append(permission_schema.dump(queried_permission).data)
+            allPermission.append(permission_schema.dump(queried_permission))
         return {"permissions": allPermission}
