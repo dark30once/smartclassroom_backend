@@ -18,7 +18,7 @@ class devices(Resource):
         all_devices = []
         devices = Devices.query.all()
         for device in devices:
-            data = devices_schema.dump(device).data
+            data = devices_schema.dump(device)
             remote_design = RemoteDesign.query.filter_by(id = device.remote_design_id).first()
             if remote_design == None:
                 data['remote_design'] = None
@@ -53,7 +53,7 @@ class device(Resource):
         query = Devices.query.get(id)
 
         if query.count() != 0:
-            device = devices_schema.dump(query.first()).data
+            device = devices_schema.dump(query.first())
             device['remote_design'] = RemoteDesign.query.filter_by(id = device['remote_design_id']).first().name
             return {"data": device}
         else:

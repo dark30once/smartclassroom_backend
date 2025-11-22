@@ -173,7 +173,7 @@ class AddDeviceToRoom(Resource):
             room_status = RoomStatus.query.all()
             # print(">>>>==================================",room_status,len(room_status))
             # print("ADD-->")
-        mqtt.publish("//smart_classroom/reloadMqtt","true")
+        mqtt.publish("smartclassroom/reloadMqtt","true")
 
 class AllRoomStatusByID(Resource):
     @requires("roomstatus", ["Admin", "User"])
@@ -195,7 +195,7 @@ class AllRoomStatusByID(Resource):
             raise InvalidDataError("Invalid payload")
         data = get_room_status_details(room_status)
         log.debug("-----publish----")
-        mqtt.publish("//smart_classroom/"+str(data['room_name'])+"/"+str(data['device_name'])+"/"+str(data['ext_topic']),payload)
+        mqtt.publish("smartclassroom/"+str(data['room_name'])+"/"+str(data['device_name'])+"/"+str(data['ext_topic']),payload)
 
     @requires("roomstatus", ["Admin"])
     def delete(self, id):
@@ -205,7 +205,7 @@ class AllRoomStatusByID(Resource):
         data = get_room_status_details(room_status)
         db.session.delete(room_status)
         db.session.commit()
-        mqtt.publish("//smart_classroom/reloadMqtt","true")
+        mqtt.publish("smartclassroom/reloadMqtt","true")
         log.debug("delete-->")
 
 class Room_control_real_time_data(Resource):  # CHECK IF USER HAS REAL TIME IN ROOM CONTROL

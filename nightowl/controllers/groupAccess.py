@@ -48,7 +48,7 @@ class shwNotGrpAccess(Resource):
         group = Group.query.all()
         for queried_group in group:
             if GroupAccess.query.filter_by(room_id = id, group_id = queried_group.id).count() == 0:
-                allGroup.append(groups_schema.dump(queried_group).data)
+                allGroup.append(groups_schema.dump(queried_group))
                 allGroup[counter]["members"] = GroupMember.query.filter_by(group_id = queried_group.id).count()
                 counter += 1
         return {"group": allGroup}

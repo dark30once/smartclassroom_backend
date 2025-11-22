@@ -19,7 +19,7 @@ class groupMember(Resource):
         allUser = []
         query = GroupMember.query.filter_by(group_id = id).all()
         for queried_member in query:
-            allUser.append(users_schema.dump(Users.query.filter_by(id = queried_member.user_id).first()).data)
+            allUser.append(users_schema.dump(Users.query.filter_by(id = queried_member.user_id).first()))
         return {"members":allUser}
 
     @requires("global", ["Admin"])
@@ -43,7 +43,7 @@ class shwNotMem(Resource):
         query = Users.query.all()
         for queried_user in query:
             if GroupMember.query.filter_by(group_id = id, user_id  = queried_user.id).count() == 0:
-                allUser.append(users_schema.dump(queried_user).data)
+                allUser.append(users_schema.dump(queried_user))
         return {"members": allUser}
 
 

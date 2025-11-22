@@ -30,7 +30,7 @@ class rooms(Resource):
     @requires("global", ["Admin"])
     def post(self):
         Request = request.get_json()
-        addRoom = room_schema.load(Request, session = db.session).data
+        addRoom = room_schema.load(Request, session = db.session)
         name  = addRoom.name
         if Room.query.filter_by(name = name).count() == 0:
             db.session.add(addRoom)
@@ -44,7 +44,7 @@ class room(Resource):
     @requires("room", ["Admin", "User"])
     def get(self, id):
         room = Room.query.get(id)
-        data = room_schema.dump(room).data
+        data = room_schema.dump(room)
         return {"data": data}
 
 
@@ -76,5 +76,5 @@ class roomDetails(Resource): # THIS IS USER IN NAVBAT
     @requires("room", ["Admin", "User"])
     def get(self, id):
         room = Room.query.get(id)
-        data = room_schema.dump(room).data
+        data = room_schema.dump(room)
         return {"data":data}

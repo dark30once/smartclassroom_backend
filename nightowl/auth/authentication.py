@@ -1,4 +1,4 @@
-from flask import make_response, request, jsonify, g
+from flask import make_response, request, jsonify, g, Response
 from werkzeug.exceptions import Unauthorized, InternalServerError
 from functools import wraps
 from datetime import datetime, timedelta
@@ -65,7 +65,10 @@ def token_required(f):
         if isinstance(ret, tuple):
             code = ret[1]
             ret = ret[0]
-        response = make_response(json.dumps(ret), code)
+        if isinstance(ret, Response):
+            response = ret
+        else:
+            response = make_response(json.dumps(ret), code)
         response.headers.extend({'x-access-token': token})
         log.debug("Response: {}".format(response))
         return response
@@ -134,7 +137,10 @@ class requires():
             if isinstance(ret, tuple):
                 code = ret[1]
                 ret = ret[0]
-            response = make_response(json.dumps(ret), code)
+            if isinstance(ret, Response):
+                response = ret
+            else:
+                response = make_response(json.dumps(ret), code)
             response.headers.extend({'x-access-token': token})
             log.debug("Response: {}".format(response))
             return response

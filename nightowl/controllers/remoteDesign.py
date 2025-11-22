@@ -15,5 +15,5 @@ class AllRemoteDesign(Resource):
         all_data = {"remote_design": []}
         datas = RemoteDesign.query.all()
         for data in datas:
-            all_data['remote_design'].append(remote_design_schema.dump(data).data)
+            all_data['remote_design'].append(remote_design_schema.dump(data))
         return all_data
